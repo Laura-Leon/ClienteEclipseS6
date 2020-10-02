@@ -9,19 +9,23 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.UUID;
+
+import com.google.gson.Gson;
 
 import processing.core.PApplet;
 
 public class serverMain extends PApplet {
-	private BufferedWriter writer;
+	//private BufferedWriter writer;
 	private  BufferedReader read;
 	private BufferedWriter write;
+	private ArrayList <Usuario> usuarios;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		PApplet.main("eclipseS6.serverMain");
-		//String id = UUID.randomUUID().toString();
-		//System.out.println();
+		//String id;
+		System.out.println();
 		
 
 	}
@@ -30,7 +34,14 @@ public class serverMain extends PApplet {
 	}
 	public void setup() {
 		
+		
 		initServer();
+		usuarios = new ArrayList <Usuario>();
+		
+		//String id = UUID.randomUUID().toString();
+		
+		
+		
 	}
 	public void initServer() {
 		
@@ -50,12 +61,26 @@ public class serverMain extends PApplet {
 						OutputStreamWriter outs = new OutputStreamWriter (out);
 						write = new BufferedWriter (outs);
 						
-						//BufferedReader reader = new BufferedReader(new InputStreamReader(id));
-						//writer = new BufferedWriter(new OutputStreamWriter(out));
-						
 						while(true) {
 							String line = read.readLine();
 							System.out.println(line);
+							
+							Gson gson = new Gson();
+							Usuario obj = gson.fromJson(line,Usuario.class);
+							usuarios.add(new Usuario ("wilson","wilfredo"));
+							usuarios.add(new Usuario ("natalia","natiorvi"));
+							usuarios.add(new Usuario ("gabriel","gab8"));
+							sendMessage("no está inscrito");
+							
+							
+							for (int i = 0; i<usuarios.size(); i++) {
+								if(obj.getName().equals(usuarios.get(i).getName())) {
+									
+									sendMessage("ya esta");
+									
+								}
+								
+							}
 							
 						}
 					
@@ -67,6 +92,22 @@ public class serverMain extends PApplet {
 				).start();
 		
 	}
+	
+	public void sendMessage(String msg){
+
+        new Thread(
+                ()-> {
+                    try {
+
+                        write.write(msg+"\n");
+                       write.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+        ).start();
+    }
+	
 	public void draw() {
 		background(0);
 	}

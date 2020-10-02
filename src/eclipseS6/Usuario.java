@@ -6,19 +6,14 @@ public class Usuario {
 	private String name;
 	private String pass;
 	
-	public Usuario(String id, String name, String pass) {
+	public Usuario(String name, String pass) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.pass = pass;
 		
 	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
+	
 	public String getName() {
 		return name;
 	}
