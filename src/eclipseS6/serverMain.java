@@ -70,13 +70,19 @@ public class serverMain extends PApplet {
 							usuarios.add(new Usuario ("wilson","wilfredo"));
 							usuarios.add(new Usuario ("natalia","natiorvi"));
 							usuarios.add(new Usuario ("gabriel","gab8"));
-							sendMessage("no está inscrito");
+						
 							
 							
 							for (int i = 0; i<usuarios.size(); i++) {
 								if(obj.getName().equals(usuarios.get(i).getName())) {
+									if(obj.getPass().equals(usuarios.get(i).getPass())) {
+									sendMessage("ya esta");	
+									}
 									
-									sendMessage("ya esta");
+									
+									
+								}else {
+									sendMessage ("no esta inscrito");
 									
 								}
 								
